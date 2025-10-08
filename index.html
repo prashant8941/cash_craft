@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash Craft - Smart Money Tracking</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💸</text></svg>">
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/genai": "https://esm.sh/@google/genai@^0.14.1"
+        }
+      }
+    </script>
+    <script type="module" src="index.tsx"></script>
+</head>
+<body>
+    <div id="app-container">
+        <header>
+            <h1>Cash Craft <span class="emoji">💸</span></h1>
+        </header>
+        <main>
+            <div class="column" id="finance-column">
+                <section id="overview" aria-labelledby="overview-title">
+                    <h2 id="overview-title">Financial Overview</h2>
+                    <div class="overview-cards">
+                        <div class="card">
+                            <h3>Budget</h3>
+                            <div class="input-group">
+                                <span>₹</span>
+                                <input type="number" id="budget-input" placeholder="Set Budget" aria-label="Set Monthly Budget">
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>Expenses</h3>
+                            <p id="total-expenses">₹0.00</p>
+                        </div>
+                        <div class="card">
+                            <h3>Remaining</h3>
+                            <p id="remaining-budget">₹0.00</p>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div id="budget-progress-bar"></div>
+                    </div>
+                </section>
+                <section id="transactions" aria-labelledby="transactions-title">
+                    <h2 id="transactions-title">Add Transaction</h2>
+                    <form id="add-transaction-form">
+                        <input type="text" id="transaction-description" placeholder="Expense description" required aria-label="Expense Description">
+                        <select id="transaction-category" required aria-label="Expense Category"></select>
+                        <input type="number" id="transaction-amount" placeholder="Amount" min="0.01" step="0.01" required aria-label="Expense Amount">
+                        <button type="submit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            <span>Add Expense</span>
+                        </button>
+                    </form>
+                    <h3 class="subsection-title">Recent Transactions</h3>
+                    <ul id="transaction-list">
+                        <!-- Transactions will be dynamically inserted here -->
+                    </ul>
+                </section>
+                <section id="expense-breakdown" aria-labelledby="breakdown-title">
+                    <h2 id="breakdown-title">Expense Breakdown</h2>
+                    <div id="chart-container">
+                        <!-- Donut chart will be dynamically inserted here -->
+                    </div>
+                </section>
+            </div>
+            <div class="column" id="ai-column">
+                <section id="ai-advisor" aria-labelledby="ai-advisor-title">
+                    <h2 id="ai-advisor-title">Smart Advisor</h2>
+                    <div id="ai-chat-box" role="log" aria-live="polite">
+                        <div class="ai-message">Hello! Ask me for an analysis of your spending, savings tips, or any other financial questions.</div>
+                    </div>
+                    <div id="loading-indicator" class="hidden" role="status">
+                        <div class="spinner"></div>
+                        <span>Thinking...</span>
+                    </div>
+                    <form id="ai-prompt-form">
+                        <input type="text" id="ai-prompt-input" placeholder="Ask your financial question..." required aria-label="Financial question for AI advisor">
+                        <button type="submit" aria-label="Send question to AI advisor">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
+                        </button>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
