@@ -10,18 +10,16 @@ router.post("/", async (req, res) => {
     try {
         const { title, amount, category } = req.body;
 
-        // 1. Save Expense
+
         const newExpense = new Expense({ title, amount, category });
         const savedExpense = await newExpense.save();
 
-        // 2. Update Category
         await Category.findOneAndUpdate(
             { label: category },
             { $inc: { amount: amount } }, 
             { upsert: true, new: true }
         );
         
-        // 3. Save History
         const newHistory = new History({
             id: savedExpense._id.toString(), 
             label: title,
@@ -33,11 +31,11 @@ router.post("/", async (req, res) => {
 
         res.status(201).json(savedExpense);
     } catch (error) {
-        console.error("❌ Mongoose Error Adding Expense:", error);
+        console.error("Mongoose Error Adding Expense:", error);
         res.status(500).json({ message: "Failed to add expense" });
     }
 });
-// ... (omitted GET/DELETE routes for brevity, assuming they are correct)
+
 router.get("/", async (req, res) => {
   try {
     const expenses = await Expense.find().sort({ date: -1 });

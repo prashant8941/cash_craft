@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true, // Ensures no two users have the same email
+        unique: true, 
         trim: true,
         lowercase: true,
     },
@@ -14,9 +14,8 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    // You can add more fields like name, createdAt, etc., here later
 }, {
-    timestamps: true // Adds createdAt and updatedAt timestamps
+    timestamps: true 
 });
 
 export default mongoose.model('User', UserSchema);

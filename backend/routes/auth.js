@@ -41,41 +41,32 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// --- LOGIN ROUTE (NEW) ---
-// @route   POST api/auth/login
-// @desc    Authenticate user & get token
-// @access  Public
+
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // 1. Check if user exists
         let user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }
-
-        // 2. Compare the plain text password with the hashed password in the database
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }
-
-        // 3. Create and return a JSON Web Token (JWT)
         const payload = {
             user: {
-                id: user.id // MongoDB's user ID
+                id: user.id 
             }
         };
 
         jwt.sign(
             payload,
-            process.env.JWT_SECRET, // Your secret key from .env
-            { expiresIn: '1h' }, // Token expiration time
+            process.env.JWT_SECRET, 
+            { expiresIn: '1h' }, 
             (err, token) => {
                 if (err) throw err;
-                // Success: Send the token back to the client
                 res.json({ token }); 
             }
         );

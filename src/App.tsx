@@ -9,7 +9,6 @@ import { HistoryContextProvider } from "./store/HistoryContext";
 
 export default function App() {
   return (
-    // Global styles
     <MantineProvider
       theme={{
         fontFamily: "Open Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",

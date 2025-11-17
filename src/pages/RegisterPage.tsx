@@ -1,10 +1,9 @@
-// src/pages/RegisterPage.tsx (FIXED)
+
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-// Ensure this matches your backend port
 const API_URL = 'http://localhost:5000/api/auth/register'; 
 
 const RegisterPage: React.FC = () => {
