@@ -1,7 +1,13 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// src/pages/RegisterPage.tsx (FIXED)
 
-export default function Login() {
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+// Ensure this matches your backend port
+const API_URL = 'http://localhost:5000/api/auth/register'; 
+
+const RegisterPage: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -10,32 +16,31 @@ export default function Login() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setMessage('');
+        setMessage(''); 
         setLoading(true);
 
         try {
-            const res = await fetch("http://localhost:5000/api/auth/login", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
+            const response = await axios.post(API_URL, {
+                email,
+                password
             });
 
-            const data = await res.json();
+            setMessage('Registration successful! Redirecting to login...');
+            console.log(response.data);
+            
+            setTimeout(() => {
+                navigate('/login'); 
+            }, 2000);
 
-            if (res.ok) {
-                setMessage('Login successful! Redirecting...');
-                localStorage.setItem('token', data.token);
-                setTimeout(() => {
-                    navigate('/home');
-                }, 2000);
+        } catch (error: unknown) {
+            let errorMessage = 'An unexpected error occurred.';
+            if (axios.isAxiosError(error) && error.response) {
+                errorMessage = `Error: ${error.response.data.msg || 'Registration failed'}`;
             } else {
-                setMessage(`Error: ${data.msg || 'Login failed'}`);
+                console.error(error);
             }
-        } catch (error) {
-            console.error(error);
-            setMessage('An unexpected error occurred.');
+            setMessage(errorMessage);
+
         } finally {
             setLoading(false);
         }
@@ -59,7 +64,7 @@ export default function Login() {
                 boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)',
                 backgroundColor: '#242424',
             }}>
-                <h2 style={{ marginTop: 0, marginBottom: '30px', color: '#fff', textAlign: 'center' }}>Welcome Back</h2>
+                <h2 style={{ marginTop: 0, marginBottom: '30px', color: '#fff', textAlign: 'center' }}>Create Account</h2>
                 <form onSubmit={handleSubmit}>
                     <div style={{ marginBottom: '15px' }}>
                         <label htmlFor="email" style={{ display: 'block', marginBottom: '5px', color: '#ccc', fontWeight: 'bold' }}>Email:</label>
@@ -101,8 +106,8 @@ export default function Login() {
                             placeholder="••••••••"
                         />
                     </div>
-                    <button
-                        type="submit"
+                    <button 
+                        type="submit" 
                         style={{
                             width: '100%',
                             padding: '12px',
@@ -118,7 +123,7 @@ export default function Login() {
                         }}
                         disabled={loading}
                     >
-                        {loading ? 'Logging in...' : 'Login'}
+                        {loading ? 'Registering...' : 'Register'}
                     </button>
                 </form>
                 {message && (
@@ -135,9 +140,9 @@ export default function Login() {
                     </p>
                 )}
                 <div style={{ marginTop: '20px', textAlign: 'center', borderTop: '1px solid #333', paddingTop: '20px' }}>
-                    <p style={{ color: '#999', margin: '0 0 10px 0' }}>Don't have an account?</p>
+                    <p style={{ color: '#999', margin: '0 0 10px 0' }}>Already have an account?</p>
                     <button
-                        onClick={() => navigate('/register')}
+                        onClick={() => navigate('/login')}
                         style={{
                             width: '100%',
                             padding: '12px',
@@ -150,10 +155,12 @@ export default function Login() {
                             cursor: 'pointer',
                         }}
                     >
-                        Register Here
+                        Login Here
                     </button>
                 </div>
             </div>
         </div>
     );
-}
+};
+
+export default RegisterPage;

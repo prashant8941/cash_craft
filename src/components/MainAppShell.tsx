@@ -11,7 +11,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { CgCalculator } from "react-icons/cg";
 import { AiOutlineHome } from "react-icons/ai";
 import { MdAttachMoney } from "react-icons/md";
@@ -23,10 +23,13 @@ import AddBudgetPage from "../pages/AddBudgetPage";
 import AddExpensePage from "../pages/AddExpensePage";
 import { useLocalStorage } from "@mantine/hooks";
 import DisplayCategoriesPage from "../pages/DisplayCategoriesPage";
+import Login from "../login";
+import RegisterPage from "../pages/RegisterPage";
 
 const MainAppShell = () => {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
+  const location = useLocation();
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: "theme",
     defaultValue: "dark",
@@ -35,19 +38,16 @@ const MainAppShell = () => {
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
 
+  // Hide navbar and header for login/register pages
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+
   return (
     // Handles providing the correct color scheme to child elements
     <ColorSchemeProvider
       colorScheme={colorScheme}
       toggleColorScheme={toggleColorScheme}
     >
-      <MantineProvider
-        theme={{ colorScheme }}
-        withGlobalStyles
-        withNormalizeCSS
-      >
-        <BrowserRouter>
-          <AppShell
+      <AppShell
             styles={(theme) => ({
               main: {
                 backgroundColor:
@@ -59,6 +59,7 @@ const MainAppShell = () => {
             navbarOffsetBreakpoint="sm"
             asideOffsetBreakpoint="sm"
             navbar={
+              !isAuthPage ? (
               <Navbar
                 p="md"
                 hiddenBreakpoint="sm"
@@ -68,7 +69,7 @@ const MainAppShell = () => {
                 <NavigationLink
                   label="Home"
                   icon={<AiOutlineHome />}
-                  link="/"
+                  link="/home"
                 />
                 <NavigationLink
                   label="Add an Expense"
@@ -86,8 +87,10 @@ const MainAppShell = () => {
                   link="/categories"
                 />
               </Navbar>
+              ) : undefined
             }
             header={
+              !isAuthPage ? (
               <Header
                 height={{ base: 50, md: 70 }}
                 p="md"
@@ -129,18 +132,20 @@ const MainAppShell = () => {
                   <DarkLightThemeButton />
                 </div>
               </Header>
+              ) : undefined
             }
           >
             {/* ✅ All Routes */}
             <Routes>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<Navigate to="/register" replace />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/home" element={<HomePage />} />
               <Route path="/newExpense" element={<AddExpensePage />} />
               <Route path="/newBudget" element={<AddBudgetPage />} />
               <Route path="/categories" element={<DisplayCategoriesPage />} />
             </Routes>
           </AppShell>
-        </BrowserRouter>
-      </MantineProvider>
     </ColorSchemeProvider>
   );
 };

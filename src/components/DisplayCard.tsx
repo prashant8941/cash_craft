@@ -18,7 +18,7 @@ const DisplayCard = ({ label, amount, color }: DisplayCardProps) => {
         {label}
       </Text>
       <Text mt="xs" size={35} color={color} weight={500}>
-        ${amount.toLocaleString("en-US")}
+        ₹{amount.toLocaleString("en-US")}
       </Text>
     </Card>
   );

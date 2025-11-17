@@ -40,9 +40,9 @@ const SetBudget = () => {
               amount: value,
             });
             // navigates back to home page
-            navigate("/");
+            navigate("/home");
             addHistoryElement({
-              label: "Budget has been set to $" + value,
+              label: "Budget has been set to ₹" + value,
               id: crypto.randomUUID(),
               amount: value,
               type: "Budget",

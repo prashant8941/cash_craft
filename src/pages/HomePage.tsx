@@ -25,7 +25,7 @@ const HomePage = () => {
               : theme.colors.gray[9],
         })}
       >
-        YOUR BALANCE IS: ${budget - expenses}
+        YOUR BALANCE IS: ₹{budget - expenses}
       </Text>
       <SimpleGrid cols={2} style={{ justifyContent: "center" }}>
         <DisplayCard label="Income / Budget" amount={budget} color="green.4" />

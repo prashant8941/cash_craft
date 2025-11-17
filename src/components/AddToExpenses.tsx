@@ -67,7 +67,7 @@ export default function AddToExpenses() {
       setAmount(null); 
       setCategory("");
 
-      navigate("/");
+      navigate("/home");
 
     } catch (err) {
       console.error("❌ Error adding expense:", err);

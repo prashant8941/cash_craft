@@ -1,9 +1,13 @@
+// backend/server.js (Updated)
+
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import expenseRoutes from "./routes/expenseRoutes.js";
-import categoryRoutes from "./routes/categoryRoutes.js"; 
+import categoryRoutes from "./routes/categoryRoutes.js";
+import authRoutes from "./routes/auth.js"; 
+
 
 // Load environment variables from .env file
 dotenv.config();
@@ -17,7 +21,6 @@ app.use(express.json());
 // --- Database Connection Function ---
 const connectDB = async () => {
     try {
-        // Removed deprecated options: useNewUrlParser and useUnifiedTopology
         await mongoose.connect(process.env.MONGO_URI);
         
         console.log("✅ MongoDB Connected successfully!");
@@ -39,7 +42,8 @@ const connectDB = async () => {
 // --- Routes ---
 // The connection must be established before setting up routes that rely on it
 app.use("/api/expenses", expenseRoutes);
-app.use("/api/categories", categoryRoutes); 
+app.use("/api/categories", categoryRoutes);
+app.use("/api/auth", authRoutes); // <--- ADDED ROUTE
 
 // Initialise the Database Connection and Server Start
 connectDB();

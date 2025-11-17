@@ -5,14 +5,15 @@ import { AvailableCategoriesContextProvider } from "./store/AvailableCategoriesC
 import { CategoriesContextProvider } from "./store/CategoriesContext";
 import { HistoryContextProvider } from "./store/HistoryContext";
 
+
+
 export default function App() {
   return (
     // Global styles
     <MantineProvider
       theme={{
-        fontFamily: "open-sans",
+        fontFamily: "Open Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
         colorScheme: "dark",
-        fontSizes: { md: 90 },
       }}
     >
       <Paper>

@@ -76,7 +76,7 @@ const ResetValueModal = ({ type, prevAmount }: ResetValueModalProps) => {
                 });
               }
               // navigates to home page
-              navigate("/");
+              navigate("/home");
             }}
           >
             Reset {type}

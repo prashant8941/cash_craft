@@ -56,7 +56,7 @@ const AddToBudget = () => {
       });
 
       alert("Budget added/updated successfully!");
-      navigate("/");
+      navigate("/home");
     } catch (err) {
       console.error(" Error adding budget:", err);
       alert("Failed to add budget. Check console for details.");

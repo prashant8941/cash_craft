@@ -47,7 +47,7 @@ const HistoryModal = ({
         <span style={{ fontWeight: "bold" }}>Type:</span> {type}
       </Text>
       <Text>
-        <span style={{ fontWeight: "bold" }}>Amount:</span> $
+        <span style={{ fontWeight: "bold" }}>Amount:</span> ₹
         {amount.toLocaleString()}
       </Text>
       <Text>
